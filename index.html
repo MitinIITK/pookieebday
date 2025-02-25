@@ -571,7 +571,33 @@
     } else {
       console.log('Element is less than 50% in the viewport.');
     }
-  });
+  });$(window).on('scroll', function () {
+    var iframe = $('iframe');
+    if (isElementInViewport(iframe)) {
+        console.log('Element is 50% in viewport, changing audio source...');
+        var newAudioSource = 'img/kamavoice.mp3';
+
+        // Check if the new audio source is different
+        if ($('.song source').attr('src') !== newAudioSource) {
+            $('.song source').attr('src', newAudioSource);
+            $('.song')[0].load(); // Reload the audio element to reflect the new source
+            $('.song')[0].play(); // Play the new audio source
+        }
+    } else {
+        console.log('Element is less than 50% in the viewport.');
+    }
+});
+
+function isElementInViewport(el) {
+    var rect = el[0].getBoundingClientRect();
+    var windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+
+    // Check if at least 50% of the element is in the viewport
+    var elementHeight = rect.bottom - rect.top;
+    var visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+
+    return (visibleHeight / elementHeight) >= 0.5;
+}
 
   function isElementInViewport(el) {
     if (el.length === 0) {
