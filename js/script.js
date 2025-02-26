@@ -446,3 +446,27 @@ $(document).ready(function() {
         confetti.resize();
     });
 });
+
+document.getElementById('play').addEventListener('click', function() {
+    // Apply transition effect for smoothness
+    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.opacity = '0';
+
+    setTimeout(() => {
+        // Trigger fullscreen after the fade-out effect
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+            document.documentElement.msRequestFullscreen();
+        }
+
+        // After entering fullscreen, fade the content back in
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 50);
+    }, 1000);
+});
